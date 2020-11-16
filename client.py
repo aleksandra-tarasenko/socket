@@ -1,7 +1,18 @@
 import socket
 
-HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 8080       # Port to listen on (non-privileged ports are > 1023)
+sock = socket.socket() #создаем сокет
+sock.connect(('localhost', 9090)) #подключаемся к серверу
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.sendto(b'Text',(HOST,PORT))
+word = ''
+
+while word != "exit":
+    word = input("Input word > ") #вводим слово
+
+    sock.send(bytes(word, encoding='UTF-8')) #шлем на сервер
+    data = sock.recv(1024) #получаем результат
+    print("Result: ",data.decode(),"\n") #выводим результат
+
+sock.close()
+
+
+
